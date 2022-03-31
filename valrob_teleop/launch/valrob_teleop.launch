@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="valrob_teleop" type="valrob_teleop_key.py" name="valrob_teleop_keyboard" output="screen">
+    </node>
+</launch>

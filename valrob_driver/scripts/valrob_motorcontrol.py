@@ -13,31 +13,45 @@ class MotSerial(serial.Serial):
     def __init__(self, serialName):
         serial.Serial.__init__(self, serialName, 115200, timeout=0)
         self.__serialBusy = False
-    
+    def busy(self):
+        return self.__serialBusy
+    def setUnbusy(self):
+        self.__serialBusy = False
+    def setBusy(self):
+        self.__serialBusy = True
     def sendGcode(self, gcode):
         sended = False
         while not sended:
-            time.sleep(0.01)
-            self.write(gcode.encode("utf8"))
-            print(gcode)
-            sended = True
+            if (not self.busy()):
+                self.setBusy() #---------
+                time.sleep(0.01)
+                self.write(gcode.encode("utf8"))
+                print(gcode)
+                sended = True
+                self.setUnbusy()#---------
                 
 
     def sendWithResponse(self, gcode):
-        getit = True
-        #envoie de la commande
-        self.write(gcode.encode("utf8"))
-        
-        #reccuperation de la valeur des encodeurs
-        i = 0
-        while getit:
-            by = self.readline()
-            sr=by.decode('utf-8')
-            getit = not "R="in sr #a finir
-            i+=1
-            if i >2:
-                getit = False
-                sr = "response_failed"
+        sr = ""
+        if (not self.busy()):
+            self.setBusy() #---------
+            getit = True
+            #envoie de la commande
+            self.write(gcode.encode("utf8"))
+            
+            #reccuperation de la valeur des encodeurs
+            i = 0
+            while getit:
+            
+                    by = self.readline()
+                    sr=by.decode('utf-8')
+                    getit = not "R="in sr #a finir
+                    i+=1
+                    if i >2:
+                        getit = False
+                        sr = "response_failed"
+            #print("encodeurs: fin <= ")
+            self.setUnbusy()#---------
            
                     
         return sr.replace("R=", "")
@@ -74,7 +88,7 @@ def publishVelocity(linear, angular):
 
 if __name__ == "__main__":
     #define the serial motor 
-    serialName = rospy.get_param("motor_controller_port", "/dev/ttyACM1")
+    serialName = rospy.get_param("motor_controller_port", "/dev/ttyACM0")
     motSer = MotSerial(serialName)
 
     #execution server position

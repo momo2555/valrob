@@ -45,15 +45,15 @@ LIN_VEL_STEP_SIZE = 0.01
 ANG_VEL_STEP_SIZE = 0.1
 
 msg = """
-Control Your TurtleBot3!
+Control Your Valrob Bot!
 ---------------------------
 Moving around:
         w
    a    s    d
         x
 
-w/x : increase/decrease linear velocity (Burger : ~ 0.22, Waffle and Waffle Pi : ~ 0.26)
-a/d : increase/decrease angular velocity (Burger : ~ 2.84, Waffle and Waffle Pi : ~ 1.82)
+w/x : increase/decrease linear velocity 
+a/d : increase/decrease angular velocity 
 
 space key, s : force stop
 
@@ -143,7 +143,7 @@ if __name__=="__main__":
         print(msg)
         while(1):
             key = getKey()
-            if key == 'w' :
+            if key == 'z' :
                 target_linear_vel = checkLinearLimitVelocity(target_linear_vel + LIN_VEL_STEP_SIZE)
                 status = status + 1
                 print(vels(target_linear_vel,target_angular_vel))
@@ -151,7 +151,7 @@ if __name__=="__main__":
                 target_linear_vel = checkLinearLimitVelocity(target_linear_vel - LIN_VEL_STEP_SIZE)
                 status = status + 1
                 print(vels(target_linear_vel,target_angular_vel))
-            elif key == 'a' :
+            elif key == 'q' :
                 target_angular_vel = checkAngularLimitVelocity(target_angular_vel + ANG_VEL_STEP_SIZE)
                 status = status + 1
                 print(vels(target_linear_vel,target_angular_vel))
