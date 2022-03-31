@@ -1,22 +1,22 @@
 <launch>
 
     <!-- launch the driver control for the stm32 motor card -->
-    <node pkg="valrob_driver" type="valrob_motorcontrol" name="valrob_motorcontrol">
+    <node pkg="valrob_driver" type="valrob_motorcontrol.py" name="valrob_motorcontrol">
 
     </node>
 
     <!-- velocity command node -->
-    <node pkg="valrob_driver" type="valrob_cmdvel" name="valrob_cmdvel">
+    <node pkg="valrob_driver" type="valrob_cmdvel.py" name="valrob_cmdvel">
 
     </node>
 
      <!-- velocity odom request sender -->
-     <node pkg="valrob_driver" type="valrob_odom" name="valrob_odom">
+     <node pkg="valrob_driver" type="valrob_odom.py" name="valrob_odom">
 
     </node>
     
     <!-- imu node -->
-    <node pkg="valrob_driver" type="valrob_imu" name="valrob_imu">
+    <node pkg="valrob_driver" type="valrob_imu.py" name="valrob_imu">
 
     </node>
 

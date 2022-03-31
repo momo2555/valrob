@@ -1,6 +1,6 @@
+#!/usr/env python3
 import serial
 import rospy
-from valrob_driver.srv import motorcontrol, motorcontrolResponse
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
@@ -46,17 +46,17 @@ class MotSerial(serial.Serial):
 def execRequest(req):
     if req.data == "odom":
         #send the velocity in odom topic
-        res = ser.sendWithResponse("M404 \n")
-        res = res.split(';')
-        publishVelocity(float(ser[0]), float(ser[1]))
-        pass
+        res = motSer.sendWithResponse("M404 \n")
+        res = res.replace('\n', '').replace('(', '').replace(')', '').split(';')
+        if(len(res)==2):
+            publishVelocity(float(res[0]), float(res[1]))
+        
     elif "gcode=" in req.data:
         #send gcode
         gcode = req.data.replace("gcode=", "")
         gcode = gcode + " \n"
-        ser.sendGcode(gcode)
-        pass
-    return motorcontrolResponse("ok")
+        motSer.sendGcode(gcode)
+        
 
 
 def publishVelocity(linear, angular):
@@ -68,14 +68,14 @@ def publishVelocity(linear, angular):
     
     message.child_frame_id = "base_link"
     message.twist.twist = Twist(Vector3(linear, 0, 0), Vector3(0, 0, angular))
-          
+    print(message)
     encOdom.publish(message)
 
 
 if __name__ == "__main__":
     #define the serial motor 
-    serialName = rospy.get_param("motor_controller_port", "/dev/ttyACM0")
-    ser = MotSerial(serialName)
+    serialName = rospy.get_param("motor_controller_port", "/dev/ttyACM1")
+    motSer = MotSerial(serialName)
 
     #execution server position
     rospy.init_node('motorcontrol')
