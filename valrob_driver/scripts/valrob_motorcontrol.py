@@ -80,7 +80,7 @@ def publishVelocity(linear, angular):
     message.header.frame_id = "odom"
     message.pose.pose = Pose(Point(0, 0, 0), Quaternion(*odomQuat))
     
-    message.child_frame_id = "base_link"
+    message.child_frame_id = "base_footprint"
     message.twist.twist = Twist(Vector3(linear, 0, 0), Vector3(0, 0, angular))
     print(message)
     encOdom.publish(message)

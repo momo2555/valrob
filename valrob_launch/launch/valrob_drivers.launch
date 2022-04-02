@@ -21,7 +21,7 @@
     </node>
 
     <!-- kalman filter -->
-    <include file="$(find valrob_launch)/launch/valrob_kalman.launch" />
+    <!--<include file="$(find valrob_launch)/launch/valrob_kalman.launch" />-->
 
     <!-- run the laser sensor (lidar) -->
     <node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_node">
