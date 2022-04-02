@@ -5,7 +5,7 @@
   <arg name="open_rviz" default="true"/>
 
   <!-- valrob description-->
- <
+ 
 
   <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
   <include file="$(find valrob_slam)/launch/slam_$(arg slam_methods).launch">
