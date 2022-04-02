@@ -1,3 +1,3 @@
-*Valrob description package
+#Valrob description package
 
 Description of the robot 
