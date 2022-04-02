@@ -5,7 +5,15 @@
   <arg name="open_rviz" default="true"/>
 
   <!-- valrob description-->
- 
+    <arg name="multi_robot_name" default=""/>
+
+    <include file="$(find valrob_description)/launch/description_details.launch" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg multi_robot_name)"/>
+    </node>
+
 
   <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
   <include file="$(find valrob_slam)/launch/slam_$(arg slam_methods).launch">
