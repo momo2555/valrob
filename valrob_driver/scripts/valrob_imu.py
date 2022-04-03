@@ -41,7 +41,7 @@ if __name__ == "__main__":
             
             message = Imu()
             message.header.stamp = rospy.Time.now()
-            message.header.frame_id = "base_link"
+            message.header.frame_id = "imu_link"
             message.linear_acceleration = Vector3(accel['x'] - xmoy/i, accel['y'], accel['z'])
             message.angular_velocity = Vector3(gyro['x'], gyro['y'], gyro['z'])
             imu_publisher.publish(message)
